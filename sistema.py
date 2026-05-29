@@ -1,5 +1,15 @@
 import os
 
+print("""
+=========================================================
+                BEM VINDO A SUCESS CAR 💫🚘
+=========================================================""")
+print("""
+
+      """)
+input("Pressione ENTER para continuar...")
+os.system("clear")
+
 aviso ="""
 =========================================================
                      AVISO DO SISTEMA
@@ -301,7 +311,7 @@ while opcao != 0:
         print(menu_info)
         input("Pressione ENTER para continuar...")
         os.system("clear")
-print("A sua sessão foi encerrada. Obrigada por usar o PyBuy-a-Car! 🚗💨")
+print("A sua sessão foi encerrada. Obrigada por usar a Sucess Car! 🚗💨")
 print(aviso)
         
 
