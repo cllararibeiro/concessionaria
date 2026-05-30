@@ -103,7 +103,7 @@ menu_info = """
 ==================================================
                 ℹ️ INFORMAÇÕES ℹ️
 ==================================================
-                🚗 PyBuy-a-Car 🚗
+                🚗 Sucess Car 🚗
 Sistema de gestão para concessionárias de veículos
 
    👩‍💻 Equipe de desenvolvimento:
