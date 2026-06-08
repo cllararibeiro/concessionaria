@@ -4,7 +4,7 @@ import  datetime
 
 print("""
 =========================================================
-                BEM VINDO A SUCESS CAR 💫🚘
+                BEM VINDO A SUCCESS CAR 💫🚘
 =========================================================""")
 print("""
 
@@ -151,10 +151,13 @@ while opcao != 0:
     print(menu)
     opcao = int(input("Digite a opção desejada: "))
     if opcao == 1:
+        resp = ""
         os.system("clear")
         print(menu_veiculos)
         while resp!= 0:
             resp = int(input("Digite a opção desejada do Módulo Veículos: "))
+            print("resposta: ", resp)
+            input("Pressione ENTER para continuar...")
             if resp == 1:
                 os.system("clear")
                 print("=== Essa opção é responsável por cadastrar um novo veículo no sistema. ===")
@@ -297,6 +300,7 @@ while opcao != 0:
         os.system("clear")
         print(menu_clientes)
         while resp_cli!= 0:
+            resp_cli = ""
             resp_cli = int(input("Digite a opção desejada do Módulo Clientes: "))
             if resp_cli == 1:
                 os.system("clear")
@@ -406,6 +410,7 @@ while opcao != 0:
         os.system("clear")
         print(menu_vendas)
         while resp_venda!= 0:
+            resp_venda = ""
             resp_venda = int(input("Digite a opção desejada do Módulo Vendas: "))
             if resp_venda == 1:
                 os.system("clear")
@@ -413,7 +418,7 @@ while opcao != 0:
                 cpf_cli = input("Informe o CPF do cliente: ")
                 placa_pro = input("Informe a placa do veículo: ")
                 data = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-                venda_id = (len(vendas) + 1)
+                venda_id = str(len(vendas) + 1)
                 vendas[venda_id] = {"data": data, "cliente": cpf_cli, "veiculo": placa_pro}
                 print(f"""
                 ✅ Venda cadastrada com sucesso!
@@ -526,6 +531,7 @@ while opcao != 0:
         os.system("clear")
         print(menu_relatorios)
         while resp_relatorio!= 0:
+            resp_relatorio = ""
             resp_relatorio = int(input("Digite a opção desejada do Módulo Relatórios: "))
             if resp_relatorio == 1:
                 os.system("clear")
@@ -567,7 +573,7 @@ while opcao != 0:
         print(menu_info)
         input("Pressione ENTER para continuar...")
         os.system("clear")
-print("A sua sessão foi encerrada. Obrigada por usar a Sucess Car! 🚗💨")
+print("A sua sessão foi encerrada. Obrigada por usar a Success Car! 🚗💨")
 print(aviso)
         
 
