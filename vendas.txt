@@ -1,0 +1,2 @@
+id;data;cliente;veiculo
+1;13/06/2026;134.170.334-70;ABC-123
