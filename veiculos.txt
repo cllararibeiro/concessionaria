@@ -1,3 +1,2 @@
-placa;categoria;marca;modelo;ano;cor;km;valor;tipo
-ABC-123;Carro;Fiat;Fastback;2020;Preto;0.0;890000.0;Novo
-IS2001;Moto;Honda;FAN 150;2012;Preto;4000.0;8500.0;USADO
+placa;categoria;marca;modelo;ano;cor;km;valor;tipo;status
+AB-12;Carro;Fiat;Fastback;2025;Preto;0.0;120000.0;Novo;Vendido
