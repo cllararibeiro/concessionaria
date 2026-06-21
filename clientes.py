@@ -16,11 +16,24 @@ def exibir_cliente(cliente):
     else:
         print(f"❌ Cliente não encontrado.")
 
+def processar_cpf(cpf_bruto):
+    cpf = cpf_bruto.replace(".", "").replace("-", "").strip()
+    if len(cpf) != 11 or not cpf.isdigit():
+        return None 
+    cpf_formatado = f"{cpf[0:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:11]}"
+    return cpf_formatado
+
 def cadastrar_cliente():
-    cpf = input("Informe o CPF: ")
-    cpf_existe = buscar_cliente(cpf)
+    print("=== Cadastro de Cliente ===")
+    cpf = input("Informe o CPF (apenas números): ")
+    cpf_formatado = processar_cpf(cpf)
+    
+    if not cpf_formatado:
+        print("❌ Erro: CPF inválido! Deve conter exatamente 11 números.")
+        return
+    cpf_existe = buscar_cliente(cpf_formatado)
     if cpf_existe:
-        print(f"Cliente com CPF {cpf} já existe no sistema. Cadastro cancelado.")
+        print(f"❌ Cliente com CPF {cpf_formatado} já existe no sistema. Cadastro cancelado.")
         return
     
     nome = input("Informe o nome: ")
@@ -28,19 +41,14 @@ def cadastrar_cliente():
     email = input("Informe o email: ")
     cidade = input("Informe a cidade: ")
     datanasc = input("Informe a data de nascimento (DD/MM/AAAA): ")
-
-    linhas = ler_arquivo("clientes.txt")
-    precisa_cabecalho = (len(linhas) == 0)
-
-    with open("clientes.txt", "a") as arquivo:
-            if precisa_cabecalho:
-                arquivo.write("cpf;nome;telefone;email;cidade;datanasc\n")
-            arquivo.write(
-                f"{cpf};{nome};{telefone};"
-                f"{email};{cidade};{datanasc}\n"
-            )
+    datanasc_valida = processar_data(datanasc)
+    if not datanasc_valida:
+        print("❌ Erro: Data de nascimento inválida! Digite no formato correto (ex: 25/12/1995).")
+        return
+    
+    
     print("✨ Cliente cadastrado com Sucesso! ✨")
-    cliente = buscar_cliente(cpf)
+    cliente = buscar_objeto("clientes.txt", cpf_formatado)
     exibir_cliente(cliente)
 
 def menu_edicaoc(cliente, cpf_original):
@@ -62,15 +70,18 @@ def menu_edicaoc(cliente, cpf_original):
             cliente[1] = input("altere o nome: ")
         elif edit == 2:
             novo_cpf = input("altere o CPF: ")
-            if novo_cpf == "cpf":
+            novo_cpf_formatado = processar_cpf(novo_cpf)
+            if not novo_cpf_formatado:
+                print("❌ Erro: CPF inválido! Deve conter exatamente 11 números.")
+            elif novo_cpf_formatado == "cpf": 
                 print("Nome inválido! 'cpf' é uma palavra reservada do sistema.")
-            elif novo_cpf == cpf_original:
-                cliente[0] = novo_cpf
+            elif novo_cpf_formatado == cpf_original:
+                cliente[0] = novo_cpf_formatado
             else:
-                if buscar_cliente(novo_cpf):
-                    print("Já existe um cliente com esse CPF!")
+                if buscar_cliente(novo_cpf_formatado):
+                    print("❌ Já existe um cliente com esse CPF!")
                 else:
-                    cliente[0] = novo_cpf
+                    cliente[0] = novo_cpf_formatado
         elif edit == 3:
             cliente[2] = input("altere o telefone: ")
         elif edit == 4:
@@ -78,21 +89,31 @@ def menu_edicaoc(cliente, cpf_original):
         elif edit == 5:
             cliente[4] = input("altere a cidade: ")
         elif edit == 6:
-            cliente[5] = input("altere a data de nascimento (DD/MM/AAAA): ")
+            datanasc = input("Informe a data de nascimento (DD/MM/AAAA): ")
+            datanasc_valida = processar_data(datanasc)
+            if not datanasc_valida:
+                print("❌ Erro: Data de nascimento inválida! Digite no formato correto (ex: 25/12/1995).")
+                continue
+            cliente[5] = datanasc_valida
 
 def editar_cliente(cpf):
-    cliente = buscar_cliente(cpf)
+    cpf_formatado = processar_cpf(cpf)
+
+    if not cpf_formatado:
+        print("❌ Erro: CPF digitado para busca é inválido.")
+        return
+    cliente = buscar_cliente(cpf_formatado)
     if cliente:
         exibir_cliente(cliente)
-        cpf_original = cpf
+        cpf_original = cpf_formatado
         menu_edicaoc(cliente, cpf_original)
-
         linhas = ler_arquivo("clientes.txt")
-        linhas_atualizadas = atualizar_linha(linhas,cpf, cliente)
-        salvar_arquivo("clientes.txt",linhas_atualizadas)
-        print("Cliente atualizado com sucesso!")
+        linhas_atualizadas = atualizar_linha(linhas, cpf_formatado, cliente)
+        salvar_arquivo("clientes.txt", linhas_atualizadas)
+        print("✅ Cliente atualizado com sucesso!")
     else:
-        print(f"Cliente com CPF: {cpf} não encontrado")
+        print(f"❌ Cliente com CPF: {cpf_formatado} não encontrado")
+    cliente = buscar_cliente(cpf)
 
 def excluir_cliente(cpf):
     if buscar_cliente(cpf):

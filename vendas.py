@@ -1,5 +1,5 @@
 from veiculos import buscar_veiculo, status_veiculo
-from clientes import buscar_cliente
+from clientes import buscar_cliente, processar_cpf
 from geral import *
 
 def exibir_venda(venda):
@@ -50,16 +50,24 @@ def menu_edicao_venda(venda, placa_original):
         > """))
 
         if editven == 1:
-            venda[1] = input("Altere a data (DD/MM/AAAA): ")
+            data = processar_data(input("Informe a data da venda (DD/MM/AAAA): "))
+            if not data:
+                print("❌ Erro: Data inválida! Digite no formato correto (ex: 25/12/2025).")
+                continue
+            venda[1] = data
             print("Data alterada!")
-            
         elif editven == 2:
-            alt_cpf_cli = input("Altere o CPF do cliente: ")
-            if buscar_cliente(alt_cpf_cli): 
-                venda[2] = alt_cpf_cli
-                print("CPF do cliente alterado na venda!")
+            alt_cpf = input("Altere o CPF do cliente: ")
+            alt_cpf_formatado = processar_cpf(alt_cpf)
+            
+            if not alt_cpf_formatado:
+                print("❌ Erro: CPF inválido! Deve conter exatamente 11 números.")
             else:
-                print("❌ Erro: Cliente não encontrado no sistema!")
+                if buscar_cliente(alt_cpf_formatado): 
+                    venda[2] = alt_cpf_formatado
+                    print("✅ CPF do cliente alterado na venda!")
+                else:
+                    print("❌ Erro: Cliente não encontrado no sistema!")
                 
         elif editven == 3:
             alt_placa_pro = input("Altere a placa do veículo: ")
@@ -97,14 +105,21 @@ def editar_venda():
 
 def cadastrar_venda():
     print("=== Essa opção é responsável pelo cadastro de uma venda ===")
-    cpf_cli = input("Informe o CPF do cliente: ")
+    cpf= input("Informe o CPF do cliente: ")
+    cpf_formatado = processar_cpf(cpf)
+    if not cpf_formatado:
+        print("❌ Erro: CPF inválido! Deve conter exatamente 11 números.")
+        return
     placa_pro = input("Informe a placa do veículo: ")
-    data = input("Informe a data da venda (DD/MM/AAAA): ")
-    cliente = buscar_cliente(cpf_cli)
+    data = processar_data(input("Informe a data da venda (DD/MM/AAAA): "))
+    if not data:
+        print("❌ Erro: Data da venda inválida! Use o formato DD/MM/AAAA.")
+        return
+    cliente = buscar_cliente(cpf_formatado)
     veiculo = buscar_veiculo(placa_pro)
 
     if not cliente:
-        print(f"❌ Erro: O cliente com CPF {cpf_cli} não está cadastrado no sistema!")
+        print(f"❌ Erro: O cliente com CPF {cpf_formatado} não está cadastrado no sistema!")
     elif not veiculo:
         print(f"❌ Erro: O veículo com placa {placa_pro} não está cadastrado no sistema!")
     elif veiculo[9].strip().lower() == "vendido":
@@ -112,17 +127,17 @@ def cadastrar_venda():
         
     else:
         linhas_vendas = ler_arquivo("vendas.txt")
-        precisa_cabecalho = (len(linhas_vendas) == 0)
-        venda_id = "1" if precisa_cabecalho else str(len(linhas_vendas))
+        if len(linhas_vendas) == 0:
+            adicionar_linha("vendas.txt", "id;data;cliente;veiculo\n")
+            venda_id = "1"
+        else:
+            venda_id = str(len(linhas_vendas))
 
-        with open("vendas.txt", "a") as arquivo:
-            if precisa_cabecalho:
-                arquivo.write("id;data;cliente;veiculo\n")
-            arquivo.write(f"{venda_id};{data};{cpf_cli};{placa_pro}\n")
-
+        nova_linha = f"{venda_id};{data};{cpf_formatado};{placa_pro}\n"
+        adicionar_linha("vendas.txt", nova_linha)
         status_veiculo(placa_pro, "Vendido")
 
-        venda_atual = [venda_id, data, cpf_cli, placa_pro]
+        venda_atual = [venda_id, data, cpf_formatado, placa_pro]
         exibir_venda(venda_atual)
 
 def excluir_venda(id):

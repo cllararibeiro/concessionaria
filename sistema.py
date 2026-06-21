@@ -7,9 +7,9 @@ from procedimentos import *
 from veiculos import *
 from clientes import *
 from vendas import *
+from relatorios import *
 
 boas_vindas()
-
 
 opcao = -1
 
@@ -148,71 +148,7 @@ while opcao != 0:
                 os.system("clear")
                 menu_vendas()
     elif opcao == 4:
-        resp_relatorio = -1
-        os.system("clear")
-        menu_relatorios()
-        while resp_relatorio != 0:
-            resp_relatorio = int(input("Digite a opção desejada do Módulo Relatórios: "))
-            if resp_relatorio == 1:
-                os.system("clear")
-                print("=== Essa opção é responsável por gerar um relatório de veículos. ===")
-                print("🚘 Relatório de Veículos 🚘")
-                
-                try:
-                    with open("veiculos.txt", "r") as arquivo:
-                        linhas = arquivo.readlines()
-                    for i in range(1, len(linhas)):
-                        info = linhas[i].strip().split(";")
-                        print(f"""
-                          Placa: {info[0]} - Marca: {info[2]} - Modelo: {info[3]} -
-                          Ano: {info[4]} - Valor: R$ {float(info[7]):.2f} - Categoria: {info[1]}""")
-                except FileNotFoundError:
-                    print("Nenhum veículo cadastrado no sistema ainda.")
-
-                input("Pressione ENTER para continuar...")
-                os.system("clear")
-                menu_relatorios()
-                
-            elif resp_relatorio == 2:
-                os.system("clear")
-                print("=== Essa opção é responsável por gerar um relatório de clientes. ===")
-                print("👥 Relatório de Clientes 👥")
-                
-                try:
-                    with open("clientes.txt", "r") as arquivo:
-                        linhas = arquivo.readlines()
-                    for i in range(1, len(linhas)):
-                        info = linhas[i].strip().split(";")
-                        print(f"""
-                          CPF: {info[0]} - Nome: {info[1]} - Telefone: {info[3]} -
-                          Email: {info[4]} - Cidade: {info[5]} - Data de Nascimento: {info[2]}""")
-                except FileNotFoundError:
-                    print("Nenhum cliente cadastrado no sistema ainda.")
-                    
-                input("Pressione ENTER para continuar...")
-                os.system("clear")
-                menu_relatorios()
-                
-            elif resp_relatorio == 3:
-                os.system("clear")
-                print("=== Essa opção é responsável por gerar um relatório de vendas. ===")
-                print("💰 Relatório de Vendas 💰")
-    
-                try:
-                    with open("vendas.txt", "r") as arquivo:
-                        linhas = arquivo.readlines()
-                    for i in range(1, len(linhas)):
-                        info = linhas[i].strip().split(";")
-                        print(f"""
-                        ID: {info[0]} - Data: {info[1]} - Cliente (CPF): {info[2]}
-                        Veículo (Placa): {info[3]}
-                        ------------------------------------------------------------""")
-                except FileNotFoundError:
-                    print("Nenhuma venda cadastrada no sistema ainda.")
-                    
-                input("Pressione ENTER para continuar...")
-                os.system("clear")
-                menu_relatorios()
+       modulo_relatorios()
     elif opcao == 5:
         os.system("clear")
         menu_info()

@@ -44,7 +44,10 @@ def cadastrar_veiculo():
         
     marca = input("Informe a marca: ")
     modelo = input("Informe o modelo: ")
-    ano = int(input("Informe o ano: "))
+    ano = processar_ano(input("Informe o ano do veículo (AAAA): "))
+    if not ano:
+        print("❌  Erro: Ano inválido! Digite um ano com 4 dígitos reais.")
+        return
     cor = input("Informe a cor: ")
     km = float(input("Informe a quilometragem: "))
     valor = float(input("Informe o valor: "))
@@ -52,13 +55,10 @@ def cadastrar_veiculo():
     status = "Disponível"
 
     linhas = ler_arquivo("veiculos.txt")
-    precisa_cabecalho = (len(linhas) == 0)
-
-    with open("veiculos.txt", "a") as arquivo:
-        if precisa_cabecalho:
-            arquivo.write("placa;categoria;marca;modelo;ano;cor;km;valor;tipo;status\n")
-        arquivo.write(
-            f"{placa};{categoria};{marca};{modelo};{ano};{cor};{km};{valor};{tipo};{status}\n")
+    if len(linhas) == 0:
+        adicionar_linha("veiculos.txt", "placa;categoria;marca;modelo;ano;cor;km;valor;tipo;status\n")
+    nova_linha = f"{placa};{categoria};{marca};{modelo};{ano};{cor};{km};{valor};{tipo};{status}\n"
+    adicionar_linha("veiculos.txt", nova_linha)
     
     print("✨ Veículo cadastrado com Sucesso! ✨")
     veiculo = buscar_veiculo(placa)
@@ -88,7 +88,11 @@ def menu_edicaov(veiculo, placa_original):
         elif editv == 2:
             veiculo[3] = input("Altere o modelo: ")
         elif editv == 3:
-            veiculo[4] = input("Altere o ano: ")
+            ano = processar_ano(input("Informe o ano do veículo (AAAA): "))
+            if not ano:
+                print("❌  Erro: Ano inválido! Digite um ano com 4 dígitos reais.")
+                continue
+            veiculo[4] = ano
         elif editv == 4:
             veiculo[5] = input("Altere a cor: ")
         elif editv == 5:

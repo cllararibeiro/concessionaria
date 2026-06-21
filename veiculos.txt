@@ -1,2 +1,4 @@
 placa;categoria;marca;modelo;ano;cor;km;valor;tipo;status
 AB-12;Carro;Fiat;Fastback;2025;Preto;0.0;120000.0;Novo;Vendido
+ABC-123;Caminhão;Scania;Top;2020;Branco;16000.0;600000.0;Usado;Vendido
+CDE-123;Moto;Honda;Fan 160;2026;Branca;0.0;20000.0;Novo;Vendido

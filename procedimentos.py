@@ -107,6 +107,55 @@ def menu_relatorios():
     ================================================
     """)
 
+def relatorios_clientes():
+    print("""
+    ================================================
+            👥 MÓDULO RELATÓRIOS CLIENTES 👥
+    ================================================
+
+    [1]  📋 Listar todos os clientes
+    [2]  🎂 Aniversariantes do mês
+    [3]  🏙️ Listar clientes por cidade
+
+    [0]  ↩️ Voltar ao Menu de Relatórios
+
+    ================================================
+    """)
+
+def relatorios_veiculos():
+    print("""
+    ================================================
+            🚘 MÓDULO RELATÓRIOS VEÍCULOS 🚘
+    ================================================
+
+    [1]  📋 Listar todos os veículos
+    [2]  📅 Listar veículos por ano
+    [3]  🎨 Listar veículos por cor
+    [4]  🏷️ Listar veículos por marca
+    [5]  🗂️ Listar veículos por categoria
+    [6]  🚙 Listar veículos por tipo
+    [7]  🚦 Listar veículos por status
+
+    [0]  ↩️ Voltar ao Menu de Relatórios
+
+    ================================================
+    """)
+
+def relatorios_vendas():
+    print("""
+    ================================================
+            💰 MÓDULO RELATÓRIOS VENDAS 💰
+    ================================================
+
+    [1]  📋 Listar todas as vendas
+    [2]  ⏳ Listar vendas por intervalo de tempo
+    [3]  📈 Listar relatório geral anual
+   
+    [0]  ↩️ Voltar ao Menu de Relatórios
+
+    ================================================
+    """)
+
 def menu_info():
     print("""
     ==================================================
