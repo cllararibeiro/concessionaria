@@ -12,8 +12,9 @@ def obter_linhas(linhas_do_arquivo, termo):
 #para obter linhas de qualquer arquivo e fazer checagem
 def ler_arquivo(nome_arquivo):
     linhas = []
+    caminho_completo = f"dados/{nome_arquivo}"
     try:
-        with open(nome_arquivo, "r") as arquivo:
+        with open(caminho_completo, "r") as arquivo:
             linhas = arquivo.readlines()
     except FileNotFoundError:
         pass
@@ -21,7 +22,8 @@ def ler_arquivo(nome_arquivo):
 
 #Escreve a lista de linhas atualizada de volta no arquivo, geralmente usada após a obter linhas/em exclusões
 def salvar_arquivo(nome_arquivo, linhas):
-    with open(nome_arquivo, "w") as arquivo:
+    caminho_completo = f"dados/{nome_arquivo}"
+    with open(caminho_completo, "w") as arquivo:
         arquivo.writelines(linhas)
 
 #Para edições, troca a linha antiga pela atualizada
@@ -44,7 +46,8 @@ def buscar_objeto(arquivo, termo):
 
 #Adiciona uma nova linha no final do arquivo
 def adicionar_linha(nome_arquivo, nova_linha):
-    with open(nome_arquivo, "a") as arquivo:
+    caminho_completo = f"dados/{nome_arquivo}"
+    with open(caminho_completo, "a") as arquivo:
         arquivo.write(nova_linha)
 
 

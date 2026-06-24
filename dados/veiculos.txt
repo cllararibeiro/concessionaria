@@ -1,0 +1,2 @@
+placa;categoria;marca;modelo;ano;cor;km;valor;tipo;status
+ABC-123;Carro;Fiat;Fastback;2026;Branco;0.0;150000;Novo;Vendido

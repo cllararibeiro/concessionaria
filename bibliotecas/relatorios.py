@@ -1,23 +1,35 @@
 import os
-from geral import *
-from clientes  import *
-from vendas import *
-from veiculos import *
-from procedimentos import *
+from bibliotecas.geral import *
+from bibliotecas.clientes  import *
+from bibliotecas.vendas import *
+from bibliotecas.veiculos import *
+from bibliotecas.procedimentos import *
 
 def modulo_relatorios():
-    resp_relatorio = -1
-    while resp_relatorio != 0:
+    while True:
         os.system("clear")
-        menu_relatorios()   
-        resp_relatorio = int(input("Digite a opção desejada do Módulo Relatórios: ")) 
-        if resp_relatorio == 1:
+        menu_relatorios()
+        try:
+            resp = int(input("Digite a opção desejada do Módulo Relatórios: "))
+        except ValueError:
+            print("❌ Erro: Por favor, digite apenas números!")
+            input("Pressione ENTER para tentar novamente...")
+            os.system("clear")
+            menu_relatorios()
+            continue 
+        if resp == 0:
+            return
+        if resp == 1:
             gerenciar_veiculos()   
-        elif resp_relatorio == 2:
+        elif resp  == 2:
             gerenciar_clientes()   
-        elif resp_relatorio == 3:
+        elif resp == 3:
             gerenciar_vendas()
-
+        else:
+            print("⚠️ Opção inválida! Escolha um número que esteja no menu.")
+            input("Pressione ENTER para tentar novamente...")
+            os.system("clear")
+            menu_relatorios()
 
 #encontra os respectivos dados desejados através do indice
 def filtrar_dados(arquivo, indice, termo_busca, funcao):
@@ -36,6 +48,7 @@ def filtrar_dados(arquivo, indice, termo_busca, funcao):
                 funcao(dados)
                 print("-" * 50)
                 resultados = True
+
     return resultados
 
 
@@ -50,7 +63,7 @@ def exibir_relatorio_veiculos():
 def exibir_relatorio_clientes():
     os.system("clear")
     print("=== 👥 Relatório de Todos os Clientes 👥 ===")
-    achou = filtrar_dados("clientes.txt", 0, "todos", exibir_cliente)
+    achou = filtrar_dados("clientes.txt", 6, "Ativo", exibir_cliente)
     if not achou:
         print("Nenhum cliente cadastrado no sistema ainda.")    
     input("\nPressione ENTER para continuar...")
@@ -64,33 +77,63 @@ def exibir_relatorio_vendas():
     input("\nPressione ENTER para continuar...")
 
 
-#Teve que ser manual por causa do fatiamento (exceção)
 def relatorio_aniversariantes_mes():
     os.system("clear")
     print("=== 🎂 Aniversariantes do Mês 🎂 ===")
-    mes= input("Digite o número do mês (01 a 12): ").strip()
+    mes = input("Digite o número do mês (01 a 12): ").strip()
     if len(mes) == 1: 
         mes = "0" + mes
     linhas = ler_arquivo("clientes.txt")
     resultados = False
+    
     for i in range(1, len(linhas)):
         cliente = linhas[i].strip().split(";")
         data_nasc = cliente[5] 
         if data_nasc[3:5] == mes:  
-            exibir_cliente(cliente)
-            print("-" * 50)
-            resultados = True
-    if not resultados: print("Nenhum aniversariante neste mês.")
+            if cliente[6] != "Desativado":
+                exibir_cliente(cliente)
+                print("-" * 50)
+                resultados = True
+                
+    if not resultados: 
+        print("Nenhum aniversariante neste mês.")
+    input("\nPressione ENTER para continuar...")
+
+def exibir_cliente_ativo(cliente):
+    if not (len(cliente) > 6 and cliente[6] == "Desativado"):
+        exibir_cliente(cliente)
+        print("-" * 50)
+
+
+def relatorio_clientes_por_cidade():
+    os.system("clear")
+    print("=== 🏙️ Filtro de Clientes por Cidade ===")
+    cidade = input("Digite a cidade: ").strip()
+    achou = filtrar_dados("clientes.txt", 4, cidade, exibir_cliente_ativo)
+    
+    if not achou:
+        print(f"❌ Nenhum cliente encontrado na cidade: {cidade}")
     input("\nPressione ENTER para continuar...")
 
 
 def relatorio_clientes_por_cidade():
     os.system("clear")
     print("=== 🏙️ Filtro de Clientes por Cidade ===")
-    cidade= input("Digite a cidade: ").strip()
-    achou = filtrar_dados("clientes.txt", 4, cidade, exibir_cliente)
-    if not achou:
-        print(f"❌ Nenhum cliente encontrado na cidade: {cidade}")
+    cidade_buscada = input("Digite a cidade: ").strip().lower()
+    linhas = ler_arquivo("clientes.txt")
+    resultados = False
+    for i in range(1, len(linhas)):
+        cliente = linhas[i].strip().split(";")
+        if len(cliente) > 6 and cliente[6] == "Desativado":
+            continue   
+        cidade_cliente = cliente[4].strip().lower()
+        if cidade_cliente == cidade_buscada:
+            exibir_cliente(cliente)
+            print("-" * 50)
+            resultados = True
+            
+    if not resultados:
+        print(f"❌ Nenhum cliente ativo encontrado na cidade: {cidade_buscada.capitalize()}")
     input("\nPressione ENTER para continuar...")
 
 def gerenciar_clientes():
@@ -128,9 +171,14 @@ def gerenciar_vendas():
         os.system("clear")
         relatorios_vendas()
         opcao = int(input("Digite a opção desejada do Módulo Relatórios de Vendas: "))
-        if opcao == 1: exibir_relatorio_vendas()
-        elif opcao == 2: intervalo_vendas()
-        elif opcao == 3: vendas_anual()
+        if opcao == 1: 
+            exibir_relatorio_vendas()
+        elif opcao == 2:
+            intervalo_vendas()
+        elif opcao == 3: 
+            vendas_anual()
+        elif opcao == 4: 
+            filtro_pagamento()
         os.system("clear")
 
 def intervalo_vendas():
@@ -204,7 +252,7 @@ def veiculos_tipo():
     os.system("clear")
     print("=== 🚙 Filtrar Veículos por Tipo ===")
     tipo= input("Digite o tipo (Novo / Usado): ").strip().lower()
-    achou = filtrar_dados("veiculos.txt", 6, tipo, exibir_veiculo)
+    achou = filtrar_dados("veiculos.txt", 8, tipo, exibir_veiculo)
     if not achou:
         print("Nenhum veículo encontrado deste tipo.")
     input("\nPressione ENTER para continuar...")
@@ -294,3 +342,48 @@ def vendas_anual():
         print(f"\n❌ Não foram encontradas vendas registradas no ano {ano_valido}.")
 
     input("\nPressione ENTER para continuar...")
+
+def mapear_pagamento():
+    vendas = ler_arquivo("vendas.txt")
+    mapa_pagamentos = {
+        "Dinheiro": [],
+        "Cartão": [],
+        "Pix": [],
+        "Financiamento":[]
+    }
+
+    for linha in vendas:
+        venda = linha.strip().split(";")
+        status = venda[5]
+        forma_pgto = venda[4] 
+        if status == "Concluída":
+            mapa_pagamentos[forma_pgto].append(venda)
+    return mapa_pagamentos
+
+def filtro_pagamento():
+    os.system("clear")
+    vendas = mapear_pagamento()
+    print("""
+    === Filtrar Vendas por Forma de Pagamento ===
+    [1] 💵 Dinheiro
+    [2] 💳 Cartão de Crédito/Débito
+    [3] 📱 Pix
+    [4] 💰 Financiamento
+    """)
+    opcao = int(input("Escolha uma opção: "))
+    chaves = {1: "Dinheiro", 2: "Cartao", 3: "Pix", 4: "Financiamento"}
+    chave = chaves.get(opcao)
+
+    if chave:
+        lista_filtrada = vendas[chave]
+        print(f"\n📋 === Vendas via {chave} ===")
+        if not lista_filtrada:
+            print("Nenhuma venda encontrada para esta forma de pagamento.")
+        else:
+            for venda in lista_filtrada:
+                exibir_venda(venda)
+        input("\nPressione ENTER para continuar...") 
+        
+    else:
+        print("Opção inválida!")
+        input("\nPressione ENTER para continuar...") # Também segura o aviso de opção inválida

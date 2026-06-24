@@ -1,5 +1,0 @@
-cpf;nome;telefone;email;cidade;datanasc
-134.170.334-70;Maria ;84 996354121;maria@gmail.com;São fernando;22/02/2007
-084.765.084-76;Wilma Ribeiro;89 09098989;wilma@gmail.com;São Fernando;16/09/1989
-090.890.567-67;Teste;5565667;mac@sggs;sss;12 23 4
-123.456.789-00;Testedois;9090999000;teste;teste;22/03/2009

@@ -1,4 +1,62 @@
-from geral import *
+from bibliotecas.geral import *
+import os
+from bibliotecas.procedimentos import *
+
+def modulo_veiculos():
+    os.system("clear")
+    menu_veiculos()
+    while True:
+        try:
+            resp = int(input("Digite a opção desejada do Módulo Veículos: "))
+        except ValueError:
+            print("❌ Erro: Por favor, digite apenas números!")
+            input("Pressione ENTER para tentar novamente...")
+            os.system("clear")
+            menu_veiculos()
+            continue 
+        if resp == 0:
+            return #volta pro menu principal
+
+        elif resp == 1:
+            os.system("clear")
+            print("=== Essa opção é responsável por cadastrar um veículo no sistema ===")
+            cadastrar_veiculo()
+            input("Pressione ENTER para continuar...")
+            os.system("clear")
+            menu_veiculos()
+
+        elif resp == 2:
+            os.system("clear")
+            print("=== Essa opção é responsável por buscar um veículo no sistema ===")
+            placa = input("Informe a placa do veículo que deseja buscar: ")
+            veiculo = buscar_veiculo(placa)
+            exibir_veiculo(veiculo)
+            input("Pressione ENTER para continuar...")
+            os.system("clear")
+            menu_veiculos()
+
+        elif resp == 3:
+                os.system("clear")
+                print("=== Essa opção é responsável por editar um veículo no sistema ===")
+                placa = input("Informe a placa do veículo que deseja editar: ")
+                editar_veiculo(placa)
+                input("Pressione ENTER para continuar...")
+                os.system("clear")
+                menu_veiculos()
+
+        elif resp == 4:
+                os.system("clear")
+                print("=== Essa opção é responsável por excluir um veículo do sistema ===")
+                placa = input("Informe a placa do veículo que deseja excluir: ")
+                excluir_veiculo(placa)
+                input("Pressione ENTER para continuar...")
+                os.system("clear")
+                menu_veiculos()
+        else:
+            print("⚠️ Opção inválida! Escolha um número que esteja no menu.")
+            input("Pressione ENTER para tentar novamente...")
+            os.system("clear")
+            menu_veiculos()
 
 def buscar_veiculo(placa):
     return buscar_objeto("veiculos.txt", placa)
@@ -146,5 +204,6 @@ def status_veiculo(placa, novo_status):
         if dados[0] == placa:
             dados[9] = novo_status
             linhas[i] = ";".join(dados) + "\n"
-    with open("veiculos.txt", "w") as arquivo:
+    with open("dados/veiculos.txt", "w") as arquivo:
         arquivo.writelines(linhas)
+        

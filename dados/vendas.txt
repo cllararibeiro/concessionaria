@@ -1,0 +1,2 @@
+id;data;cliente;veiculo;forma_pagamento;status
+1;23/06/2026;084.765.084-76;ABC-123;Financiamento;Concluída

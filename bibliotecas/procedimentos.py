@@ -69,6 +69,7 @@ def menu_clientes():
     [2]  🔍 Buscar Cliente
     [3]  ✏️ Editar Cliente
     [4]  🗑️ Excluir Cliente
+    [5]  🗑️ Desativar Cliente
 
     [0]  ↩️ Voltar ao Menu Principal
 
@@ -84,7 +85,8 @@ def menu_vendas():
     [1]  🛒 Cadastrar Venda
     [2]  🔍 Buscar Venda
     [3]  ✏️ Editar Venda
-    [4]  🗑️ Excluir Venda
+    [4]  ❌Cancelar venda
+    [5]  🗑️ Excluir Venda
 
     [0]  ↩️ Voltar ao Menu Principal
 
@@ -150,6 +152,7 @@ def relatorios_vendas():
     [1]  📋 Listar todas as vendas
     [2]  ⏳ Listar vendas por intervalo de tempo
     [3]  📈 Listar relatório geral anual
+    [4]  📈 Listar vendas por forma de pagamentpo
    
     [0]  ↩️ Voltar ao Menu de Relatórios
 
