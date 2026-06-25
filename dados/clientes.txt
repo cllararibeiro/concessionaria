@@ -1,3 +1,4 @@
 cpf;nome;telefone;email;cidade;data_nascimento;status
 134.170.334-70;Maria Clara Ribeiro de Brito;(84) 99635-4121;maria@gmail.com;São Fernando;22/02/2007;Ativo
 084.765.084-76;Wilma Dos Santos Ribeiro;(84) 99981-4272;wilma@gmail.com;São Fernando;16/09/1989;Ativo
+110.557.644-29;jose;(08) 99900-5252;joseemanuelcsilva@gmail.com;currais novos;08/02/2007;Ativo

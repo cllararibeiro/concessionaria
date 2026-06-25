@@ -152,7 +152,7 @@ def relatorios_vendas():
     [1]  📋 Listar todas as vendas
     [2]  ⏳ Listar vendas por intervalo de tempo
     [3]  📈 Listar relatório geral anual
-    [4]  📈 Listar vendas por forma de pagamentpo
+    [4]  📈 Listar vendas por forma de pagamento
    
     [0]  ↩️ Voltar ao Menu de Relatórios
 

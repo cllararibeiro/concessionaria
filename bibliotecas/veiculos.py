@@ -189,11 +189,14 @@ def editar_veiculo(placa):
         print(f"Veículo com placa {placa} não encontrado.")
 
 def excluir_veiculo(placa):
-    if buscar_veiculo(placa):
+    veiculo = buscar_veiculo(placa)
+    if veiculo and veiculo[9] == "Disponível":
         linhas_atuais = ler_arquivo("veiculos.txt")
         novas_linhas = obter_linhas(linhas_atuais, placa)
         salvar_arquivo("veiculos.txt",novas_linhas)
         print(f"Veículo com placa {placa} excluído com sucesso!")
+    elif veiculo[9] == "Vendido":
+        print("Esse veículo não pode ser excluído pois está atrelado a uma venda.")
     else:
         print(f"Veículo com placa {placa} não encontrado.")
 

@@ -137,41 +137,74 @@ def relatorio_clientes_por_cidade():
     input("\nPressione ENTER para continuar...")
 
 def gerenciar_clientes():
-    opcao = -1
-    while opcao != 0:
+    while True:
         os.system("clear")
         relatorios_clientes()
-        opcao = int(input("Digite a opção desejada do Módulo Relatórios Clientes: "))
+        try:
+            opcao = int(input("Digite a opção desejada: "))
+        except ValueError:
+            print("❌ Erro: Por favor, digite apenas números!")
+            input("Pressione ENTER para tentar novamente...")
+            os.system("clear")
+            relatorios_clientes()
+            continue 
+        if opcao == 0:
+            return 
         if opcao == 1:
             exibir_relatorio_clientes()   
         elif opcao == 2:
             relatorio_aniversariantes_mes() 
         elif opcao == 3:
             relatorio_clientes_por_cidade()
+        else:
+            print("⚠️ Opção inválida! Escolha um número que esteja no menu.")
+            input("Pressione ENTER para tentar novamente...")
+            os.system("clear")
+            relatorios_clientes()
 
 def gerenciar_veiculos():
-    opcao = -1
-    while opcao != 0:
+    while True:
         os.system("clear")
-        relatorios_veiculos() 
-        opcao = int(input("Digite a opção desejada do Módulo Relatórios Veículos: "))
-        
-        if opcao == 1:exibir_relatorio_veiculos() 
+        relatorios_veiculos()
+        try:
+            opcao = int(input("Digite a opção desejada: "))
+        except ValueError:
+            print("❌ Erro: Por favor, digite apenas números!")
+            input("Pressione ENTER para tentar novamente...")
+            os.system("clear")
+            relatorios_veiculos()
+            continue 
+        if opcao == 0:
+            return 
+        elif opcao == 1:exibir_relatorio_veiculos() 
         elif opcao == 2: veiculos_ano()
         elif opcao == 3: veiculos_cor()
         elif opcao == 4: veiculos_marca()
         elif opcao == 5: veiculos_categoria()
         elif opcao == 6: veiculos_tipo()
         elif opcao == 7: veiculos_estado()
+        else:
+            print("⚠️ Opção inválida! Escolha um número que esteja no menu.")
+            input("Pressione ENTER para tentar novamente...")
+            os.system("clear")
+            relatorios_veiculos()
         os.system("clear")
 
 def gerenciar_vendas():
-    opcao = -1
-    while opcao != 0:
+    while True:
         os.system("clear")
         relatorios_vendas()
-        opcao = int(input("Digite a opção desejada do Módulo Relatórios de Vendas: "))
-        if opcao == 1: 
+        try:
+            opcao = int(input("Digite a opção desejada do Módulo Relatórios de Vendas: "))
+        except ValueError:
+            print("❌ Erro: Por favor, digite apenas números!")
+            input("Pressione ENTER para tentar novamente...")
+            os.system("clear")
+            relatorios_vendas()
+            continue 
+        if opcao == 0:
+            return
+        elif opcao == 1: 
             exibir_relatorio_vendas()
         elif opcao == 2:
             intervalo_vendas()
@@ -179,7 +212,13 @@ def gerenciar_vendas():
             vendas_anual()
         elif opcao == 4: 
             filtro_pagamento()
+        else:
+            print("⚠️ Opção inválida! Escolha um número que esteja no menu.")
+            input("Pressione ENTER para tentar novamente...")
+            os.system("clear")
+            relatorios_veiculos()
         os.system("clear")
+
 
 def intervalo_vendas():
     os.system("clear")
@@ -370,20 +409,22 @@ def filtro_pagamento():
     [3] 📱 Pix
     [4] 💰 Financiamento
     """)
-    opcao = int(input("Escolha uma opção: "))
-    chaves = {1: "Dinheiro", 2: "Cartao", 3: "Pix", 4: "Financiamento"}
-    chave = chaves.get(opcao)
-
-    if chave:
-        lista_filtrada = vendas[chave]
-        print(f"\n📋 === Vendas via {chave} ===")
-        if not lista_filtrada:
-            print("Nenhuma venda encontrada para esta forma de pagamento.")
+    try:
+        opcao = int(input("Escolha uma opção: "))
+        chaves = {1: "Dinheiro", 2: "Cartao", 3: "Pix", 4: "Financiamento"}
+        chave = chaves.get(opcao)
+        if chave:
+            lista_filtrada = vendas[chave]
+            print(f"\n📋 === Vendas via {chave} ===")
+            if not lista_filtrada:
+                print("Nenhuma venda encontrada para esta forma de pagamento.")
+            else:
+                for venda in lista_filtrada:
+                    exibir_venda(venda)
+            input("\nPressione ENTER para continuar...")
         else:
-            for venda in lista_filtrada:
-                exibir_venda(venda)
-        input("\nPressione ENTER para continuar...") 
-        
-    else:
+            print("⚠️ Opção inválida! Escolha um número que esteja no menu.")
+            input("Pressione ENTER para tentar novamente...")
+    except ValueError:
         print("Opção inválida!")
-        input("\nPressione ENTER para continuar...") # Também segura o aviso de opção inválida
+        input("\nPressione ENTER para continuar...") 
